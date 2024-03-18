@@ -1,13 +1,14 @@
 import { X } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 
-interface LoginModalProps {
+interface SignupModalProps {
   onClose: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
+const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,7 +46,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
             <X onClick={onClose} className=" hover:cursor-pointer" />
           </span>
           <h1 className=" text-center font-semibold text-lg">
-            Login
+            Sign up
           </h1>
           <div className=" grow-0 basis-4 text-right"></div>
         </div>
@@ -63,6 +64,14 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
             className="block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           />
           <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          />
+          <input
             type="password"
             placeholder="Password"
             value={password}
@@ -74,7 +83,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
             type="submit"
             className="bg-red-500 text-white w-full py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
           >
-            Login
+            Sign up
           </button>
           <div className=" flex w-full justify-between px-5 py-2 border rounded-lg border-black hover:cursor-pointer hover:bg-neutral-200">
             <span>
@@ -111,4 +120,4 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   );
 };
 
-export default LoginModal;
+export default SignupModal;

@@ -9,16 +9,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
 
 const Header = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const openSignupModal = () => {
+    setIsSignupModalOpen(true);
+  };
+
+  const closeSignupModal = () => {
+    setIsSignupModalOpen(false);
   };
   return (
     <header className=" max-w-[1500px] mx-auto p-5 flex justify-between border-b items-center">
@@ -55,9 +65,11 @@ const Header = () => {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Sign up</DropdownMenuItem>
             <DropdownMenuItem>
-              <button onClick={openModal}>Log in</button>
+              <button onClick={openSignupModal}>Sign up</button>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <button onClick={openLoginModal}>Log in</button>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Gift Cards</DropdownMenuItem>
@@ -67,7 +79,10 @@ const Header = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      {isModalOpen && <LoginModal onClose={closeModal} />}
+      {isLoginModalOpen && <LoginModal onClose={closeLoginModal} />}
+      {isSignupModalOpen && (
+        <SignupModal onClose={closeSignupModal} />
+      )}
     </header>
   );
 };
