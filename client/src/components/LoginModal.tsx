@@ -16,7 +16,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
     onClose();
   };
 
-  // Close the modal when clicking outside of it
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
