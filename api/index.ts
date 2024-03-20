@@ -2,6 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import userRoutes from "./routes/user.route";
+import authRoutes from "./routes/auth.route";
+import { Request, Response, NextFunction } from "express";
 
 dotenv.config();
 
@@ -26,3 +29,18 @@ app.use(cookieParser());
 app.listen(3000, () => {
   console.log(`App is running on port 3000 `);
 });
+
+app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
+
+app.use(
+  (err: any, req: Request, res: Response, next: NextFunction) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal server error";
+    res.status(statusCode).json({
+      success: false,
+      statusCode,
+      message,
+    });
+  }
+);
