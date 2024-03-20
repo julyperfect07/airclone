@@ -1,19 +1,42 @@
 import { X } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
+import { toast } from "sonner";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 interface SignupModalProps {
   onClose: () => void;
 }
 
 const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successSign, setSuccessSign] = useState(false);
+  null;
+  const handleChange = (e: any) => {
     e.preventDefault();
-    console.log("Logging in with:", email, password);
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
+    if (data.success === false) {
+      return setErrorMessage(`There is a user with this email`);
+    }
+    if (res.ok) {
+      setSuccessSign(true);
+    }
     onClose();
   };
 
@@ -58,24 +81,24 @@ const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
           <input
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            onChange={handleChange}
             required
             className="block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           />
           <input
             type="text"
             placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="username"
+            onChange={handleChange}
             required
             className="block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           />
           <input
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            id="password"
+            onChange={handleChange}
             required
             className="block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           />
@@ -100,20 +123,26 @@ const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
                   cy="12"
                   r="10"
                   stroke="currentColor"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M12 12H17C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C13.3807 7 14.6307 7.55964 15.5355 8.46447"
                   stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </span>
             <h1> Continue with Google</h1>
             <div className=" grow-0 basis-4 text-right"></div>
           </div>
+          {errorMessage !== "" && (
+            <Alert variant="destructive">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
+          )}
         </form>
       </div>
     </div>
