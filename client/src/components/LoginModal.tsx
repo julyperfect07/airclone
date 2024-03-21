@@ -1,6 +1,8 @@
 import { X } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { useDispatch } from "react-redux";
+import { signInSuccess } from "../../redux/user/userSlice";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -10,6 +12,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -36,6 +39,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
       } else {
         onClose();
       }
+      dispatch(signInSuccess(data));
     } catch (error) {
       // Handle JSON parsing error or other errors
       console.error(
