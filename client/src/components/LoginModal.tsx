@@ -1,19 +1,49 @@
 import { X } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 interface LoginModalProps {
   onClose: () => void;
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (e) => {
     e.preventDefault();
-    console.log("Logging in with:", email, password);
-    onClose();
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    const res = await fetch(`/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    try {
+      const data = await res.json();
+      if (data.success === false) {
+        return setErrorMessage(`Wrong email or password`);
+      } else {
+        onClose();
+      }
+    } catch (error) {
+      // Handle JSON parsing error or other errors
+      console.error(
+        "Error parsing JSON or other fetch error:",
+        error
+      );
+      setErrorMessage("An error occurred. Please try again.");
+    }
   };
 
   useEffect(() => {
@@ -56,16 +86,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
           <input
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
+            id="email"
             required
             className="block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           />
           <input
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChange}
+            id="password"
             required
             className="block w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
           />
@@ -104,6 +134,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
             <h1> Continue with Google</h1>
             <div className=" grow-0 basis-4 text-right"></div>
           </div>
+          {errorMessage && (
+            <Alert variant="destructive">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
+          )}
         </form>
       </div>
     </div>
