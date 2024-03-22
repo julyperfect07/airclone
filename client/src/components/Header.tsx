@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signOutSuccess } from "../../redux/user/userSlice";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
@@ -31,6 +33,21 @@ const Header = () => {
 
   const closeSignupModal = () => {
     setIsSignupModalOpen(false);
+  };
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(`/api/user/logout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log("Something went wrong");
+      }
+      dispatch(signOutSuccess());
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <header className=" max-w-[1500px] mx-auto p-5 flex justify-between border-b items-center">
@@ -97,7 +114,12 @@ const Header = () => {
             </DropdownMenuItem>
             <DropdownMenuItem>Help Center</DropdownMenuItem>
             {currentUser && (
-              <DropdownMenuItem>Log out</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className=" hover:cursor-pointer"
+              >
+                Log out
+              </DropdownMenuItem>
             )}
           </DropdownMenuContent>
         </DropdownMenu>
