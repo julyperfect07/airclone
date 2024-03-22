@@ -10,8 +10,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
 
@@ -57,25 +59,46 @@ const Header = () => {
           <DropdownMenuTrigger asChild>
             <div className=" flex items-center border p-2 gap-2 rounded-3xl hover:cursor-pointer">
               <Menu />
-              <img
-                className=" object-cover w-10 h-10"
-                src="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="
-                alt=""
-              />
+              {currentUser ? (
+                <img
+                  src={currentUser.profilePicture}
+                  className=" object-cover w-10 h-10 rounded-full"
+                  alt=""
+                />
+              ) : (
+                <img
+                  className=" object-cover w-10 h-10"
+                  src="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="
+                  alt=""
+                />
+              )}
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <button onClick={openSignupModal}>Sign up</button>
+              {currentUser ? (
+                <button>Trips</button>
+              ) : (
+                <button onClick={openSignupModal}>Sign up</button>
+              )}
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <button onClick={openLoginModal}>Log in</button>
+              {currentUser ? (
+                <button>Wishlists</button>
+              ) : (
+                <button onClick={openLoginModal}>Log in</button>
+              )}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Gift Cards</DropdownMenuItem>
             <DropdownMenuItem>Airbnb your home</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>
+              {currentUser ? "Account" : "Team"}
+            </DropdownMenuItem>
             <DropdownMenuItem>Help Center</DropdownMenuItem>
+            {currentUser && (
+              <DropdownMenuItem>Log out</DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

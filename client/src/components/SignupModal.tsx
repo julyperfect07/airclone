@@ -32,7 +32,8 @@ const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
     });
     const data = await res.json();
     if (data.success === false) {
-      return setErrorMessage(`There is a user with this email`);
+      console.log(data);
+      return setErrorMessage(data.message);
     }
     if (res.ok) {
       setSuccessSign(true);
