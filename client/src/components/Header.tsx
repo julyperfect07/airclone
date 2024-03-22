@@ -12,12 +12,15 @@ import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import { useDispatch, useSelector } from "react-redux";
 import { signOutSuccess } from "../../redux/user/userSlice";
+import CreateListing from "./CreateListing";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const [isCreateListingOpen, setIsCreateListingOpen] =
+    useState(false);
 
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
@@ -33,6 +36,12 @@ const Header = () => {
 
   const closeSignupModal = () => {
     setIsSignupModalOpen(false);
+  };
+  const openCreateListing = () => {
+    setIsCreateListingOpen(true);
+  };
+  const closeCreateListing = () => {
+    setIsCreateListingOpen(false);
   };
   const handleLogout = async () => {
     try {
@@ -106,6 +115,13 @@ const Header = () => {
                 <button onClick={openLoginModal}>Log in</button>
               )}
             </DropdownMenuItem>
+            <DropdownMenuItem>
+              {currentUser && (
+                <button onClick={openCreateListing}>
+                  Create a listing
+                </button>
+              )}
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Gift Cards</DropdownMenuItem>
             <DropdownMenuItem>Airbnb your home</DropdownMenuItem>
@@ -127,6 +143,9 @@ const Header = () => {
       {isLoginModalOpen && <LoginModal onClose={closeLoginModal} />}
       {isSignupModalOpen && (
         <SignupModal onClose={closeSignupModal} />
+      )}
+      {isCreateListingOpen && (
+        <CreateListing onClose={closeCreateListing} />
       )}
     </header>
   );
