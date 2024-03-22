@@ -32,7 +32,6 @@ const SignupModal: React.FC<SignupModalProps> = ({ onClose }) => {
     });
     const data = await res.json();
     if (data.success === false) {
-      console.log(data);
       return setErrorMessage(data.message);
     }
     if (res.ok) {

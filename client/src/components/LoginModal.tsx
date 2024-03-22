@@ -35,7 +35,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
     try {
       const data = await res.json();
       if (data.success === false) {
-        return setErrorMessage(`Wrong email or password`);
+        return setErrorMessage(data.message);
       } else {
         onClose();
       }

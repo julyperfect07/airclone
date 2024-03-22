@@ -38,19 +38,22 @@ export const login = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { email, password } = req.body;
+  if (!email || !password || email === "" || password === "") {
+    next(errorHandler(400, "all fields are required"));
+  }
   try {
-    const { email, password } = req.body;
     const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
     const validUser = await User.findOne({ email });
     if (!validUser) {
-      return errorHandler(400, "There no account with this email");
+      return next(errorHandler(400, "User not found"));
     }
     const validPassword = bcryptjs.compareSync(
       password,
       validUser.password
     );
     if (!validPassword) {
-      return errorHandler(400, "Email or password not valid");
+      return next(errorHandler(400, "Email or password not valid"));
     }
     const token = jwt.sign({ id: validUser._id }, JWT_SECRET);
     const { password: pass, ...rest } = validUser.toObject();
