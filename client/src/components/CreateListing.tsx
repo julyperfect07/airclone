@@ -11,6 +11,9 @@ interface CreateListingProps {
 const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(1);
+  const [guests, setGuests] = useState(1);
+  const [rooms, setRooms] = useState(1);
+  const [bathrooms, setBathrooms] = useState(1);
   let categories = [
     "Beach",
     "Windmills",
@@ -111,19 +114,109 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
               <span className=" text-neutral-400">
                 Pick a category
               </span>
-              <ScrollArea className=" h-72 w-full flex">
-                {categories.map((category, i) => (
-                  <Category
-                    name={categories[i]}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                  />
-                ))}
+              <ScrollArea className="h-72 w-full">
+                <div className="grid grid-cols-2 gap-4">
+                  {categories.map((category, i) => (
+                    <Category
+                      name={categories[i]}
+                      selectedCategory={selectedCategory}
+                      setSelectedCategory={setSelectedCategory}
+                      key={i}
+                    />
+                  ))}
+                </div>
               </ScrollArea>
             </div>
           )}
-          {index === 3 && <div></div>}
-          {index === 4 && <div></div>}
+          {index === 3 && (
+            <div className=" flex flex-col">
+              <h1 className=" text-xl font-bold">
+                Where is your place located ?
+              </h1>
+              <span className=" text-neutral-400 mt-2 mb-5">
+                Help guests find you
+              </span>
+              <input
+                required
+                className=" p-4 outline-none border border-neutral-300 rounded-md focus:border-red-500"
+                type="text"
+                name=""
+                id="location"
+                placeholder="Location"
+              />
+            </div>
+          )}
+          {index === 4 && (
+            <div>
+              <div className=" flex flex-col">
+                <h1 className=" text-xl font-bold">
+                  Share some basics about your place
+                </h1>
+                <span className=" text-neutral-400 mt-2 mb-5">
+                  What amenities do you have ?
+                </span>
+                <div className=" flex flex-col gap-4">
+                  <div className=" flex border-b p-5 justify-between items-center">
+                    <div>
+                      <h1 className=" font-semibold">Guests</h1>
+                      <span className=" text-neutral-500">
+                        How many guests do you allow ?
+                      </span>
+                    </div>
+                    <div className=" flex gap-2 items-center">
+                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                        -
+                      </span>
+                      <span className=" text-lg font-semibold">
+                        {guests}
+                      </span>
+                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                        +
+                      </span>
+                    </div>
+                  </div>
+                  <div className=" flex border-b p-5 justify-between items-center">
+                    <div>
+                      <h1 className=" font-semibold">Rooms</h1>
+                      <span className=" text-neutral-500">
+                        How many rooms do you have ?
+                      </span>
+                    </div>
+                    <div className=" flex gap-2 items-center">
+                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                        -
+                      </span>
+                      <span className=" text-lg font-semibold">
+                        {guests}
+                      </span>
+                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                        +
+                      </span>
+                    </div>
+                  </div>
+                  <div className=" flex border-b p-5 justify-between items-center">
+                    <div>
+                      <h1 className=" font-semibold">Bathrooms</h1>
+                      <span className=" text-neutral-500">
+                        How many bathrooms do you have ?
+                      </span>
+                    </div>
+                    <div className=" flex gap-2 items-center">
+                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                        -
+                      </span>
+                      <span className=" text-lg font-semibold">
+                        {guests}
+                      </span>
+                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                        +
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           {index === 5 && <div></div>}
 
           <div className=" flex gap-3 w-full mt-5">
