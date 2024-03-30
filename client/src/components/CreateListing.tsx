@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Category from "./Category";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CreateListingProps {
   onClose: () => void;
@@ -10,7 +11,23 @@ interface CreateListingProps {
 const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(1);
-  let categories = ["Beach", "Windmills"];
+  let categories = [
+    "Beach",
+    "Windmills",
+    "Modern",
+    "Countryside",
+    "Pools",
+    "Islands",
+    "Lake",
+    "Skiing",
+    "Castles",
+    "Caves",
+    "Camping",
+    "Arctic",
+    "Desert",
+    "Barns",
+    "Lux",
+  ];
 
   const increaseIndex = () => {
     setIndex((prev) => prev + 1);
@@ -94,7 +111,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
               <span className=" text-neutral-400">
                 Pick a category
               </span>
-              <div className=" grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <ScrollArea className=" h-72 w-full flex">
                 {categories.map((category, i) => (
                   <Category
                     name={categories[i]}
@@ -102,7 +119,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                     setSelectedCategory={setSelectedCategory}
                   />
                 ))}
-              </div>
+              </ScrollArea>
             </div>
           )}
           {index === 3 && <div></div>}

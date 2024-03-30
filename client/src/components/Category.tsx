@@ -11,7 +11,6 @@ const Category: React.FC<CategoryProps> = ({
   selectedCategory,
   setSelectedCategory,
 }) => {
-  console.log(selectedCategory);
   return (
     <div
       className={`flex items-center border rounded-md px-4 py-2 h-28 w-full ${
@@ -27,7 +26,7 @@ const Category: React.FC<CategoryProps> = ({
         value={name.toLowerCase()}
         className="hidden"
       />
-      <label className="text-center font-bold">{name}</label>
+      <label className="text-center font-bold ">{name}</label>
     </div>
   );
 };
