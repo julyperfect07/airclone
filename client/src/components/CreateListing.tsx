@@ -164,15 +164,24 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                       </span>
                     </div>
                     <div className=" flex gap-2 items-center">
-                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                      <button
+                        disabled={guests === 0}
+                        type="button"
+                        onClick={() => setGuests((prev) => prev - 1)}
+                        className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer"
+                      >
                         -
-                      </span>
+                      </button>
                       <span className=" text-lg font-semibold">
                         {guests}
                       </span>
-                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                      <button
+                        type="button"
+                        onClick={() => setGuests((prev) => prev + 1)}
+                        className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer"
+                      >
                         +
-                      </span>
+                      </button>
                     </div>
                   </div>
                   <div className=" flex border-b p-5 justify-between items-center">
@@ -183,18 +192,27 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                       </span>
                     </div>
                     <div className=" flex gap-2 items-center">
-                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                      <button
+                        disabled={rooms === 0}
+                        type="button"
+                        onClick={() => setRooms((prev) => prev - 1)}
+                        className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer"
+                      >
                         -
-                      </span>
+                      </button>
                       <span className=" text-lg font-semibold">
-                        {guests}
+                        {rooms}
                       </span>
-                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                      <button
+                        type="button"
+                        onClick={() => setRooms((prev) => prev + 1)}
+                        className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer"
+                      >
                         +
-                      </span>
+                      </button>
                     </div>
                   </div>
-                  <div className=" flex border-b p-5 justify-between items-center">
+                  <div className=" flex p-5 justify-between items-center">
                     <div>
                       <h1 className=" font-semibold">Bathrooms</h1>
                       <span className=" text-neutral-500">
@@ -202,15 +220,28 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                       </span>
                     </div>
                     <div className=" flex gap-2 items-center">
-                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                      <button
+                        disabled={bathrooms === 0}
+                        type="button"
+                        onClick={() =>
+                          setBathrooms((prev) => prev - 1)
+                        }
+                        className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer"
+                      >
                         -
-                      </span>
+                      </button>
                       <span className=" text-lg font-semibold">
-                        {guests}
+                        {bathrooms}
                       </span>
-                      <span className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setBathrooms((prev) => prev + 1)
+                        }
+                        className=" flex justify-center items-center border border-black w-9 h-9 rounded-full p-4 text-lg cursor-pointer"
+                      >
                         +
-                      </span>
+                      </button>
                     </div>
                   </div>
                 </div>
