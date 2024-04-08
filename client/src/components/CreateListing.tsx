@@ -3,6 +3,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Category from "./Category";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import firebase from "firebase/app";
+import { resolve } from "path";
+import { rejects } from "assert";
+import { app } from "@/firebase";
+import { url } from "inspector";
 
 interface CreateListingProps {
   onClose: () => void;
@@ -14,7 +25,11 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const [guests, setGuests] = useState(1);
   const [rooms, setRooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
-  let categories = [
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [files, setFiles] = useState([]);
+  const [images, setImages] = useState([]);
+  console.log(images);
+  const categories = [
     "Beach",
     "Windmills",
     "Modern",
@@ -39,12 +54,6 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
     setIndex((prev) => prev - 1);
   };
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const handleCategorySelection = (categoryValue: string) => {
-    setSelectedCategory(categoryValue);
-  };
-
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
@@ -60,6 +69,47 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [onClose]);
+
+  const handleImageSubmit = (e) => {
+    if (files.length > 0) {
+      const promises = [];
+      for (let i = 0; i < files.length; i++) {
+        promises.push(storeImage(files[i]));
+      }
+      Promise.all(promises).then((urls) => {
+        setImages((prev) => prev.concat(urls));
+      });
+    }
+  };
+
+  const storeImage = async (file) => {
+    return new Promise((resolve, reject) => {
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + file.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Handle state changes (optional)
+        },
+        (error) => {
+          reject(error); // Reject the promise if an error occurs
+        },
+        () => {
+          // Upload completed successfully
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadUrl) => {
+              resolve(downloadUrl); // Resolve the promise with the download URL
+            })
+            .catch((error) => {
+              reject(error); // Reject the promise if an error occurs while getting the download URL
+            });
+        }
+      );
+    });
+  };
 
   return (
     <div className=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -248,7 +298,24 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
               </div>
             </div>
           )}
-          {index === 5 && <div></div>}
+          {index === 5 && (
+            <div className=" flex flex-col">
+              <h1 className=" text-xl font-bold">
+                Provide some images about your place
+              </h1>
+              <span className=" text-neutral-400 mt-2 mb-5">
+                Remember quality over quantity
+              </span>
+              <input
+                type="file"
+                multiple
+                onChange={(e) => setFiles(e.target.files)}
+              />
+              <button onClick={handleImageSubmit} type="button">
+                upload
+              </button>
+            </div>
+          )}
 
           <div className=" flex gap-3 w-full mt-5">
             <Button
