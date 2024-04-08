@@ -9,11 +9,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import firebase from "firebase/app";
-import { resolve } from "path";
-import { rejects } from "assert";
 import { app } from "@/firebase";
-import { url } from "inspector";
 
 interface CreateListingProps {
   onClose: () => void;
