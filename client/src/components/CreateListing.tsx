@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Trash, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Category from "./Category";
@@ -112,6 +112,9 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
     });
   };
 
+  const handleDeleteImage = (image: string) => {
+    setImages(images.filter((img) => img !== image));
+  };
   return (
     <div className=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div
@@ -321,12 +324,18 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                   upload
                 </Button>
               </div>
-              {images && (
-                <ScrollArea className=" w-full whitespace-nowrap rounded-md border">
+              {images.length > 0 && (
+                <ScrollArea className=" w-full whitespace-nowrap rounded-md border mt-5">
                   <div className="flex w-max space-x-4 p-4">
                     {images.map((image) => (
                       <figure key={image} className="shrink-0">
-                        <div className="overflow-hidden rounded-md">
+                        <div className="overflow-hidden rounded-md relative">
+                          <Trash
+                            onClick={() => handleDeleteImage(image)}
+                            size={40}
+                            strokeWidth={1.5}
+                            className="absolute top-0 right-0 z-10 p-2 text-black hover:text-red-500 cursor-pointer"
+                          />
                           <img
                             src={image}
                             className="aspect-[3/4] object-cover"
