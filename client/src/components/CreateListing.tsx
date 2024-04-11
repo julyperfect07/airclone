@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Category from "./Category";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   getDownloadURL,
   getStorage,
@@ -11,6 +11,13 @@ import {
 } from "firebase/storage";
 import { app } from "@/firebase";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "./ui/carousel";
 
 interface CreateListingProps {
   onClose: () => void;
@@ -314,16 +321,25 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                   upload
                 </Button>
               </div>
-              {images &&
-                images.map((image) => (
-                  <AspectRatio className=" mt-5" ratio={16 / 9}>
-                    <img
-                      className=" object-cover rounded-md"
-                      src={image}
-                      alt=""
-                    />
-                  </AspectRatio>
-                ))}
+              {images && (
+                <ScrollArea className=" w-full whitespace-nowrap rounded-md border">
+                  <div className="flex w-max space-x-4 p-4">
+                    {images.map((image) => (
+                      <figure key={image} className="shrink-0">
+                        <div className="overflow-hidden rounded-md">
+                          <img
+                            src={image}
+                            className="aspect-[3/4] object-cover"
+                            width={300}
+                            height={400}
+                          />
+                        </div>
+                      </figure>
+                    ))}
+                  </div>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+              )}
             </div>
           )}
 
