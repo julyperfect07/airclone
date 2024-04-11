@@ -361,14 +361,23 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
             >
               Back
             </Button>
-            <Button
-              type="button"
-              disabled={index === 5}
-              onClick={increaseIndex}
-              className=" flex-1 text-lg border border-red-500 bg-red-500 hover:bg-white hover:text-red-500 transition"
-            >
-              Next
-            </Button>
+            {index === 5 ? (
+              <Button
+                type="button"
+                className=" flex-1 text-lg border border-red-500 bg-red-500 hover:bg-white hover:text-red-500 transition"
+              >
+                Create your home
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                disabled={index === 5}
+                onClick={increaseIndex}
+                className=" flex-1 text-lg border border-red-500 bg-red-500 hover:bg-white hover:text-red-500 transition"
+              >
+                Next
+              </Button>
+            )}
           </div>
         </form>
       </div>
