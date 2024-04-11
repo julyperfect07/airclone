@@ -10,6 +10,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "@/firebase";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 
 interface CreateListingProps {
   onClose: () => void;
@@ -24,7 +25,6 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState([]);
-  console.log(images);
   const categories = [
     "Beach",
     "Windmills",
@@ -66,7 +66,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
     };
   }, [onClose]);
 
-  const handleImageSubmit = (e) => {
+  const handleImageSubmit = () => {
     if (files.length > 0) {
       const promises = [];
       for (let i = 0; i < files.length; i++) {
@@ -87,11 +87,9 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
 
       uploadTask.on(
         "state_changed",
-        (snapshot) => {
-          // Handle state changes (optional)
-        },
+        (snapshot) => {},
         (error) => {
-          reject(error); // Reject the promise if an error occurs
+          reject(error);
         },
         () => {
           // Upload completed successfully
@@ -302,14 +300,30 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
               <span className=" text-neutral-400 mt-2 mb-5">
                 Remember quality over quantity
               </span>
-              <input
-                type="file"
-                multiple
-                onChange={(e) => setFiles(e.target.files)}
-              />
-              <button onClick={handleImageSubmit} type="button">
-                upload
-              </button>
+              <div>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => setFiles(e.target.files)}
+                />
+                <Button
+                  className=" bg-red-500"
+                  onClick={handleImageSubmit}
+                  type="button"
+                >
+                  upload
+                </Button>
+              </div>
+              {images &&
+                images.map((image) => (
+                  <AspectRatio className=" mt-5" ratio={16 / 9}>
+                    <img
+                      className=" object-cover rounded-md"
+                      src={image}
+                      alt=""
+                    />
+                  </AspectRatio>
+                ))}
             </div>
           )}
 
