@@ -10,14 +10,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "@/firebase";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "./ui/carousel";
 
 interface CreateListingProps {
   onClose: () => void;
@@ -32,6 +24,32 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+  const [formData, setFormData] = useState({
+    title: title,
+    description: description,
+    category: selectedCategory,
+    location: location,
+    guests: guests,
+    rooms: rooms,
+    bathrooms: bathrooms,
+    images: images,
+  });
+  console.log(formData);
+
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      category: selectedCategory,
+      guests: guests,
+      rooms: rooms,
+      bathrooms: bathrooms,
+      images: images,
+    }));
+  }, [selectedCategory, guests, rooms, bathrooms, images]);
+
   const categories = [
     "Beach",
     "Windmills",
@@ -147,6 +165,12 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                   type="text"
                   name=""
                   id="title"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      title: e.target.value,
+                    })
+                  }
                   placeholder="Title"
                 />
                 <input
@@ -155,6 +179,12 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                   type="text"
                   name=""
                   id="description"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      description: e.target.value,
+                    })
+                  }
                   placeholder="Description"
                 />
               </div>
@@ -196,6 +226,12 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                 type="text"
                 name=""
                 id="location"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    location: e.target.value,
+                  })
+                }
                 placeholder="Location"
               />
             </div>
