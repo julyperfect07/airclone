@@ -399,7 +399,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
             </Button>
             {index === 5 ? (
               <Button
-                type="button"
+                type="submit"
                 className=" flex-1 text-lg border border-red-500 bg-red-500 hover:bg-white hover:text-red-500 transition"
               >
                 Create your home
