@@ -9,7 +9,7 @@ const listingSchema = new mongoose.Schema({
   rooms: Number,
   bathrooms: Number,
   images: {
-    type: String,
+    type: [String],
     required: true,
     default: [],
   },

@@ -37,7 +37,6 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
     bathrooms: bathrooms,
     images: images,
   });
-  console.log(formData);
 
   useEffect(() => {
     setFormData((prevFormData) => ({
@@ -133,6 +132,23 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const handleDeleteImage = (image: string) => {
     setImages(images.filter((img) => img !== image));
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`/api/listing/createlisting`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div
@@ -148,7 +164,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
           </h1>
           <div className=" grow-0 basis-4 text-right"></div>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           {index === 1 && (
             <div className=" flex flex-col gap-2">
               <h1 className=" font-bold text-xl">
@@ -398,12 +414,11 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
               Back
             </Button>
             {index === 5 ? (
-              <Button
+              <input
                 type="submit"
-                className=" flex-1 text-lg border border-red-500 bg-red-500 hover:bg-white hover:text-red-500 transition"
-              >
-                Create your home
-              </Button>
+                value="Create your listing"
+                className="flex-1 text-lg text-white border border-red-500 bg-red-500 hover:bg-white hover:text-red-500 transition"
+              />
             ) : (
               <Button
                 type="button"
