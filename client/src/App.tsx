@@ -6,11 +6,13 @@ import { Button } from "./components/ui/button";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Header from "./components/Header";
+import { Toaster } from "./components/ui/toaster";
 
 function App() {
   return (
     <BrowserRouter>
       <Header />
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />}></Route>
       </Routes>

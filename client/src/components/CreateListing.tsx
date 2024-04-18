@@ -1,4 +1,4 @@
-import { Trash, X } from "lucide-react";
+import { Check, Trash, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Category from "./Category";
@@ -10,6 +10,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "@/firebase";
+import { useToast } from "./ui/use-toast";
 
 interface CreateListingProps {
   onClose: () => void;
@@ -17,6 +18,7 @@ interface CreateListingProps {
 
 const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
   const [index, setIndex] = useState(1);
   const [guests, setGuests] = useState(1);
   const [rooms, setRooms] = useState(1);
@@ -145,6 +147,17 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
       });
       const data = await res.json();
       console.log(data);
+      if (res.ok) {
+        toast({
+          description: (
+            <div className=" flex gap-2 items-center ">
+              <Check className=" text-green-700" />
+              <p>You listing has been created successfully</p>
+            </div>
+          ),
+        });
+        onClose();
+      }
     } catch (error) {
       console.log(error);
     }
