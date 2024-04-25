@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../redux/user/userSlice";
+import OAuth from "./OAuth";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -109,35 +110,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
           >
             Login
           </button>
-          <div className=" flex w-full justify-between px-5 py-2 border rounded-lg border-black hover:cursor-pointer hover:bg-neutral-200">
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                color="black"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                <path
-                  d="M12 12H17C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C13.3807 7 14.6307 7.55964 15.5355 8.46447"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-            <h1> Continue with Google</h1>
-            <div className=" grow-0 basis-4 text-right"></div>
-          </div>
+          <OAuth onClose={onClose} />
           {errorMessage && (
             <Alert variant="destructive">
               <AlertTitle>Error</AlertTitle>
