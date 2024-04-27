@@ -13,3 +13,16 @@ export const createListing = async (
     next(error);
   }
 };
+
+export const getListings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const listings = await Listing.find();
+    res.status(200).json(listings);
+  } catch (error) {
+    next(error);
+  }
+};

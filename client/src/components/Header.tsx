@@ -79,7 +79,6 @@ const Header = () => {
         <h1 className=" text-base font-semibold hover:bg-gray-100 p-2 rounded-3xl">
           Airbnb your home
         </h1>
-        <Earth />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className=" flex items-center border p-2 gap-2 rounded-3xl hover:cursor-pointer">
@@ -102,14 +101,14 @@ const Header = () => {
           <DropdownMenuContent>
             <DropdownMenuItem>
               {currentUser ? (
-                <button>Trips</button>
+                <button>My trips</button>
               ) : (
                 <button onClick={openSignupModal}>Sign up</button>
               )}
             </DropdownMenuItem>
             <DropdownMenuItem>
               {currentUser ? (
-                <button>Wishlists</button>
+                <button>My favourites</button>
               ) : (
                 <button onClick={openLoginModal}>Log in</button>
               )}
@@ -121,13 +120,11 @@ const Header = () => {
                 </button>
               )}
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Gift Cards</DropdownMenuItem>
-            <DropdownMenuItem>Airbnb your home</DropdownMenuItem>
+            <DropdownMenuItem>My reservations</DropdownMenuItem>
             <DropdownMenuItem>
-              {currentUser ? "Account" : "Team"}
+              {currentUser ? "My Account" : "Team"}
             </DropdownMenuItem>
-            <DropdownMenuItem>Help Center</DropdownMenuItem>
+            <DropdownMenuItem>Airbnb your home</DropdownMenuItem>
             {currentUser && (
               <DropdownMenuItem
                 onClick={handleLogout}
