@@ -18,13 +18,16 @@ const ListingsCards = () => {
     getlistings();
   }, []);
   return (
-    <div className=" grid grid-cols-6 gap-3">
+    <div className=" grid grid-cols-5 gap-3">
       {listings.map((listing) => (
-        <div className=" flex flex-col items-center">
+        <div className=" flex flex-col ">
           <img
             src={listing.images[0]}
-            className="w-full max-h-60 object-cover rounded-md"
+            className="w-full h-60 object-cover rounded-md"
           />
+          <h1 className=" font-bold mt-2">{listing.location}</h1>
+          <h1 className="text-[#767676]">{listing.category}</h1>
+          <h1>$ {listing?.price} night</h1>
         </div>
       ))}
     </div>

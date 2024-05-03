@@ -27,6 +27,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState([]);
   const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [formData, setFormData] = useState({
@@ -38,7 +39,10 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
     rooms: rooms,
     bathrooms: bathrooms,
     images: images,
+    price: price,
   });
+
+  console.log(formData);
 
   useEffect(() => {
     setFormData((prevFormData) => ({
@@ -259,6 +263,23 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                   setFormData({
                     ...formData,
                     location: e.target.value,
+                  })
+                }
+                placeholder="Location"
+              />
+              <span className=" text-neutral-400 mt-2 mb-5">
+                Your price per night
+              </span>
+              <input
+                required
+                className=" p-4 outline-none border border-neutral-300 rounded-md focus:border-red-500"
+                type="text"
+                name=""
+                id="price"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    price: parseFloat(e.target.value),
                   })
                 }
                 placeholder="Location"
