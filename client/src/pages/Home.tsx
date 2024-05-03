@@ -1,5 +1,5 @@
 import React from "react";
-import { TbBeach } from "react-icons/tb";
+import { TbBaselineDensitySmall, TbBeach } from "react-icons/tb";
 import { GiWindmill } from "react-icons/gi";
 import { HiHomeModern } from "react-icons/hi2";
 import { LuTriangle } from "react-icons/lu";
@@ -18,6 +18,12 @@ import ListingsCards from "@/components/ListingsCards";
 
 const Home = () => {
   const categories = [
+    {
+      icon: (
+        <TbBaselineDensitySmall className=" w-7 h-7 text-[#767676]" />
+      ),
+      name: "All",
+    },
     {
       icon: <TbBeach className=" w-7 h-7 text-[#767676]" />,
       name: "Beach",
