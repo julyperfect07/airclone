@@ -28,10 +28,10 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState([]);
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
+  const [title] = useState("");
+  const [price] = useState("");
+  const [description] = useState("");
+  const [location] = useState("");
   const [formData, setFormData] = useState({
     title: title,
     description: description,
