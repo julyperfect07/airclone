@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-const ListingsCards = () => {
+interface Props {
+  category: string;
+}
+
+const ListingsCards = ({ category }: Props) => {
   const [listings, setListings] = useState([]);
+  console.log(category);
   console.log(listings);
   useEffect(() => {
     const getlistings = async () => {
       try {
-        const res = await fetch(`/api/listing/getlistings`);
+        const res = await fetch(
+          `/api/listing/getlistings?category=${category}`
+        );
         const data = await res.json();
         if (res.ok) {
           setListings(data);
@@ -16,7 +23,7 @@ const ListingsCards = () => {
       }
     };
     getlistings();
-  }, []);
+  }, [category]);
   return (
     <div className=" grid grid-cols-5 gap-3">
       {listings.map((listing) => (

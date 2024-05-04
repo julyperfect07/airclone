@@ -14,13 +14,22 @@ export const createListing = async (
   }
 };
 
-export const getListings = async (
+export const getFilteredListings = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const listings = await Listing.find();
+    let category = String(req.query.category);
+    if (category) {
+      category = category.toLowerCase();
+    }
+
+    if (category === "all") {
+      const listings = await Listing.find();
+      res.status(200).json(listings);
+    }
+    const listings = await Listing.find({ category: category });
     res.status(200).json(listings);
   } catch (error) {
     next(error);
