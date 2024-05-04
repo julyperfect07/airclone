@@ -11,12 +11,14 @@ import {
 } from "firebase/storage";
 import { app } from "@/firebase";
 import { useToast } from "./ui/use-toast";
+import { useSelector } from "react-redux";
 
 interface CreateListingProps {
   onClose: () => void;
 }
 
 const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
+  const { currentUser } = useSelector((state) => state.user);
   const modalRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const [index, setIndex] = useState(1);
@@ -147,7 +149,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, userRef: currentUser }),
       });
       const data = await res.json();
       console.log(data);

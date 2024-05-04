@@ -14,6 +14,9 @@ const listingSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
+  userRef: {
+    type: String,
+  },
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
