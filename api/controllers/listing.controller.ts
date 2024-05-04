@@ -27,7 +27,7 @@ export const getFilteredListings = async (
 
     if (category === "all") {
       const listings = await Listing.find();
-      res.status(200).json(listings);
+      return res.status(200).json(listings);
     }
     const listings = await Listing.find({ category: category });
     res.status(200).json(listings);
