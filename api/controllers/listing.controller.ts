@@ -41,10 +41,9 @@ export const getOneListing = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.params;
-  console.log(id);
+  const { listingId } = req.params;
   try {
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(listingId);
     res.status(200).json(listing);
   } catch (error) {
     next(error);

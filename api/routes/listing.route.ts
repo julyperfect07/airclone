@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.post("/createlisting", verifyToken, createListing);
 router.get("/getlistings", getFilteredListings);
-router.get("/onelisting/:id", getOneListing);
+router.get("/onelisting/:listingId", getOneListing);
 
 export default router;
