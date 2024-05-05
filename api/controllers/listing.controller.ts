@@ -35,3 +35,18 @@ export const getFilteredListings = async (
     next(error);
   }
 };
+
+export const getOneListing = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const listing = await Listing.findById(id);
+    res.status(200).json(listing);
+  } catch (error) {
+    next(error);
+  }
+};

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   category: string;
@@ -27,15 +28,20 @@ const ListingsCards = ({ category }: Props) => {
   return (
     <div className=" grid grid-cols-5 gap-3">
       {listings.map((listing) => (
-        <div className=" flex flex-col ">
+        <Link
+          to={`/listing/${listing._id}`}
+          className=" flex flex-col "
+        >
           <img
             src={listing.images[0]}
             className="w-full h-60 object-cover rounded-md"
           />
           <h1 className=" font-bold mt-2">{listing.location}</h1>
-          <h1 className="text-[#767676]">{listing.category}</h1>
+          <h1 className="text-[#767676] capitalize">
+            {listing.category}
+          </h1>
           <h1>$ {listing?.price} night</h1>
-        </div>
+        </Link>
       ))}
     </div>
   );
