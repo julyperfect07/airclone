@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import Calendar from "@/components/Calendar";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 interface Listing {
@@ -15,7 +16,6 @@ interface Listing {
 const ListingPage = () => {
   const params = useParams();
   const [listing, setListing] = useState<Listing | null>(null);
-  console.log(listing);
   useEffect(() => {
     const getListing = async () => {
       try {
@@ -45,8 +45,8 @@ const ListingPage = () => {
           alt="Listing"
         />
       )}
-      <div className=" flex gap-2 w-full mt-5">
-        <div>
+      <div className=" flex gap-2 w-full mt-5 ">
+        <div className=" flex-1">
           <h1 className=" font-semibold text-lg">Hosted by </h1>
           <div className=" flex gap-3 mt-3 ">
             <span className=" text-[#767676] text-base">
@@ -71,7 +71,9 @@ const ListingPage = () => {
             {listing.description}
           </p>
         </div>
-        <div></div>
+        <div className=" flex-1">
+          <Calendar />
+        </div>
       </div>
     </div>
   );
