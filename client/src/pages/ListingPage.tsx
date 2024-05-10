@@ -17,6 +17,7 @@ interface Listing {
 
 const ListingPage = () => {
   const params = useParams();
+  console.log(DateRange);
   const [selectedRange, setSelectedRange] =
     useState<DateRange | null>(null);
 
