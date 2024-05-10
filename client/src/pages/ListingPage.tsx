@@ -98,9 +98,15 @@ const ListingPage = () => {
           </p>
         </div>
         <div className=" flex-1">
-          <h1>{listing?.price}</h1>
+          <div className=" mb-4">
+            {totalCost ? (
+              <p>Total cost: ${totalCost.toFixed(2)}</p>
+            ) : (
+              <h1>{listing?.price}</h1>
+            )}
+          </div>
+
           <Calendar onSelectRange={handleRangeSelect} />
-          {totalCost && <p>Total cost: ${totalCost.toFixed(2)}</p>}
         </div>
       </div>
     </div>
