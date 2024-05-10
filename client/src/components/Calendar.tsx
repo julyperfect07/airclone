@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
-const ReservationCalendar = () => {
+interface ReservationCalendarProps {
+  onSelectRange: (range: DateRange) => void;
+}
+
+const ReservationCalendar = ({
+  onSelectRange,
+}: ReservationCalendarProps) => {
   const [selectionRange, setSelectionRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
     key: "selection",
   });
 
-  const handleSelect = (ranges) => {
+  const handleSelect = (ranges: any) => {
     // handle selection
     setSelectionRange(ranges.selection);
+    onSelectRange(ranges.selection);
   };
 
   return (

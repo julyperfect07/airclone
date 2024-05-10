@@ -1,5 +1,6 @@
 import Calendar from "@/components/Calendar";
 import { useEffect, useState } from "react";
+import { DateRange } from "react-date-range";
 import { useParams } from "react-router-dom";
 
 interface Listing {
@@ -11,10 +12,21 @@ interface Listing {
   bathrooms: number;
   description: string;
   category: string;
+  price: number;
 }
 
 const ListingPage = () => {
   const params = useParams();
+  const [selectedRange, setSelectedRange] =
+    useState<DateRange | null>(null);
+
+  const [totalCost, setTotalCost] = useState<number | null>(null);
+
+  const handleRangeSelect = (range: DateRange) => {
+    setSelectedRange(range);
+  };
+
+  console.log(selectedRange);
   const [listing, setListing] = useState<Listing | null>(null);
   useEffect(() => {
     const getListing = async () => {
@@ -32,6 +44,20 @@ const ListingPage = () => {
     };
     getListing();
   }, [params.id]);
+
+  useEffect(() => {
+    if (selectedRange && listing) {
+      const startDate = selectedRange.startDate.getTime();
+      const endDate = selectedRange.endDate.getTime();
+      const numberOfDays = Math.ceil(
+        (endDate - startDate) / (1000 * 60 * 60 * 24)
+      ); // Calculate number of days
+
+      setTotalCost(numberOfDays * listing.price); // Calculate total cost
+    } else {
+      setTotalCost(null);
+    }
+  }, [selectedRange, listing]);
 
   if (!listing) return <div>Loading...</div>;
   return (
@@ -72,7 +98,9 @@ const ListingPage = () => {
           </p>
         </div>
         <div className=" flex-1">
-          <Calendar />
+          <h1>{listing?.price}</h1>
+          <Calendar onSelectRange={handleRangeSelect} />
+          {totalCost && <p>Total cost: ${totalCost.toFixed(2)}</p>}
         </div>
       </div>
     </div>
