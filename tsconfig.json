@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES6",
     "strict": false,
+    "moduleResolution": "node",
     "noImplicitAny": false,
     "strictNullChecks": false,
     "noUnusedLocals": false,
