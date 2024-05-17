@@ -18,8 +18,7 @@ export const reserve = async (
     const { listingId, startDate, endDate, guests, user } = req.body;
 
     const userId = req.user._id;
-    console.log(user);
-    console.log(userId);
+
     if (userId !== user) {
       return res.status(403).json({ message: "Forbidden" });
     }

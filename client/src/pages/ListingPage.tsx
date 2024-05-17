@@ -1,9 +1,12 @@
 import Calendar from "@/components/Calendar";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-date-range";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 interface Listing {
+  _id: string;
   title: string;
   location: string;
   images: string[];
@@ -17,17 +20,14 @@ interface Listing {
 
 const ListingPage = () => {
   const params = useParams();
-  console.log(DateRange);
-  const [selectedRange, setSelectedRange] =
-    useState<DateRange | null>(null);
-
+  const [selectedRange, setSelectedRange] = useState(null);
+  const { currentUser } = useSelector((state) => state.user);
   const [totalCost, setTotalCost] = useState<number | null>(null);
 
-  const handleRangeSelect = (range: DateRange) => {
+  const handleRangeSelect = (range: any) => {
     setSelectedRange(range);
   };
 
-  console.log(selectedRange);
   const [listing, setListing] = useState<Listing | null>(null);
   useEffect(() => {
     const getListing = async () => {
@@ -60,6 +60,36 @@ const ListingPage = () => {
     }
   }, [selectedRange, listing]);
 
+  const handleReservation = async () => {
+    try {
+      const res = await fetch("/api/reservation/reserve", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          listingId: listing._id,
+          startDate: selectedRange.startDate,
+          endDate: selectedRange.endDate,
+          guests: listing.guests,
+          user: currentUser._id,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log({
+    listingId: listing._id,
+    startDate: selectedRange.startDate,
+    endDate: selectedRange.endDate,
+    guests: listing.guests,
+    user: currentUser._id,
+  });
   if (!listing) return <div>Loading...</div>;
   return (
     <div className=" max-w-6xl m-auto mt-7">
@@ -108,6 +138,12 @@ const ListingPage = () => {
           </div>
 
           <Calendar onSelectRange={handleRangeSelect} />
+          <Button
+            onClick={handleReservation}
+            className=" text-xl bg-red-500 text-center w-full my-2"
+          >
+            Reserve now
+          </Button>
         </div>
       </div>
     </div>
