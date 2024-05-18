@@ -1,10 +1,9 @@
-import { Earth, Menu, Navigation2, Search } from "lucide-react";
+import { Menu, Navigation2, Search } from "lucide-react";
 import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import LoginModal from "./LoginModal";
@@ -12,9 +11,10 @@ import SignupModal from "./SignupModal";
 import { useDispatch, useSelector } from "react-redux";
 import { signOutSuccess } from "../../redux/user/userSlice";
 import CreateListing from "./CreateListing";
+import { Link } from "react-router-dom";
 
 const Header = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
@@ -59,10 +59,13 @@ const Header = () => {
   };
   return (
     <header className=" max-w-[1500px] mx-auto p-5 flex justify-between border-b items-center">
-      <div className=" text-lg flex gap-2 items-center hover:cursor-pointer">
+      <Link
+        to={"/"}
+        className=" text-lg flex gap-2 items-center hover:cursor-pointer"
+      >
         <Navigation2 size={40} className=" text-red-500" />
         <h1 className=" text-red-500 font-bold text-xl">airbnb</h1>
-      </div>
+      </Link>
       <div className=" flex items-center gap-5 border shadow-sm hover:shadow-md duration-75 rounded-3xl py-1 px-3">
         <span className=" font-semibold border-r border-gray-200 pr-6">
           Anywhere

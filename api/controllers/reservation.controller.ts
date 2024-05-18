@@ -27,6 +27,19 @@ export const reserve = async (
     if (!listing) {
       return res.status(400).json({ message: "Listing not found" });
     }
+    // Check if the user already has an active reservation for this listing
+    const existingReservation = await Reservation.findOne({
+      user: userId,
+      listingId: listingId,
+      endDate: { $gte: new Date() },
+    });
+
+    if (existingReservation) {
+      return res.status(400).json({
+        message: "You already have a reservation for this listing.",
+      });
+    }
+
     const newReservation = new Reservation({
       listingId: listingId,
       startDate,

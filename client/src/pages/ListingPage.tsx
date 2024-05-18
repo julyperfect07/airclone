@@ -1,7 +1,9 @@
 import Calendar from "@/components/Calendar";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { DateRange } from "react-date-range";
+
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -19,9 +21,10 @@ interface Listing {
 }
 
 const ListingPage = () => {
+  const { toast } = useToast();
   const params = useParams();
   const [selectedRange, setSelectedRange] = useState(null);
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state: any) => state.user);
   const [totalCost, setTotalCost] = useState<number | null>(null);
 
   const handleRangeSelect = (range: any) => {
@@ -77,19 +80,29 @@ const ListingPage = () => {
       });
       const data = await res.json();
       if (res.ok) {
-        console.log(data);
+        toast({
+          description: (
+            <div className=" flex gap-2 items-center ">
+              <Check className=" text-green-700" />
+              <p>The lisiting has been preserved successfully</p>
+            </div>
+          ),
+        });
+      } else if (!res.ok) {
+        toast({
+          description: (
+            <div className=" flex gap-2 items-center ">
+              <X className=" text-red-700" />
+              <p>{data.message}</p>
+            </div>
+          ),
+        });
       }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log({
-    listingId: listing._id,
-    startDate: selectedRange.startDate,
-    endDate: selectedRange.endDate,
-    guests: listing.guests,
-    user: currentUser._id,
-  });
+
   if (!listing) return <div>Loading...</div>;
   return (
     <div className=" max-w-6xl m-auto mt-7">
