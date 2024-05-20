@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TbBaselineDensitySmall, TbBeach } from "react-icons/tb";
 import { GiWindmill } from "react-icons/gi";
 import { HiHomeModern } from "react-icons/hi2";
