@@ -40,9 +40,30 @@ export const favorite = async (
       user.favorites.splice(listingIndex, 1);
     }
     await user.save();
-    res.json({ user, message: "Favorite status updated" });
+
+    // Get the updated list of favorited listings
+    const updatedUser = await User.findById(
+      req.user._id,
+      "favorites"
+    );
+
+    res.json({ favoritedListings: updatedUser.favorites });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const getFavorites = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.status(200).json(user.favorites);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };

@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -6,9 +8,13 @@ interface Props {
 }
 
 const ListingsCards = ({ category }: Props) => {
+  const { currentUser } = useSelector((state: any) => state.user);
   const [listings, setListings] = useState([]);
-  console.log(category);
-  console.log(listings);
+  const [favoritedListings, setFavoritedListings] = useState<
+    string[]
+  >([]);
+
+  console.log(favoritedListings);
   useEffect(() => {
     const getlistings = async () => {
       try {
@@ -19,29 +25,72 @@ const ListingsCards = ({ category }: Props) => {
         if (res.ok) {
           setListings(data);
         }
+
+        if (currentUser) {
+          const favoritesResponse = await fetch(
+            `/api/user/favorites`
+          );
+          const favoritesData = await favoritesResponse.json();
+          if (favoritesResponse.ok) {
+            setFavoritedListings(favoritesData);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
     };
+
     getlistings();
   }, [category]);
+
+  const toggleFavorite = async (listingId: string) => {
+    try {
+      const res = await fetch(`/api/user/favorite/${listingId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.ok) {
+        const { favoritedListings } = await res.json();
+        setFavoritedListings(favoritedListings);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className=" grid grid-cols-5 gap-3">
+    <div className="grid grid-cols-5 gap-3">
       {listings.map((listing) => (
-        <Link
-          to={`/listing/${listing._id}`}
-          className=" flex flex-col "
-        >
-          <img
-            src={listing.images[0]}
-            className="w-full h-60 object-cover rounded-md"
-          />
-          <h1 className=" font-bold mt-2">{listing.location}</h1>
-          <h1 className="text-[#767676] capitalize">
-            {listing.category}
-          </h1>
-          <h1>$ {listing?.price} night</h1>
-        </Link>
+        <div key={listing._id} className="flex flex-col relative">
+          <Link
+            to={`/listing/${listing._id}`}
+            className="flex flex-col"
+          >
+            <img
+              src={listing.images[0]}
+              className="w-full h-60 object-cover rounded-md"
+              alt={listing.location}
+            />
+            <h1 className="font-bold mt-2">{listing.location}</h1>
+            <h1 className="text-[#767676] capitalize">
+              {" "}
+              {listing.category}{" "}
+            </h1>
+            <h1>$ {listing.price} night</h1>
+          </Link>
+          <div
+            className="absolute top-2 right-2 cursor-pointer"
+            onClick={() => toggleFavorite(listing._id)}
+          >
+            {favoritedListings.includes(listing._id) ? (
+              <FaHeart className="text-red-500 text-2xl" />
+            ) : (
+              <FaRegHeart className="text-gray-500 text-2xl" />
+            )}
+          </div>
+        </div>
       ))}
     </div>
   );
