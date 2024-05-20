@@ -14,7 +14,6 @@ const ListingsCards = ({ category }: Props) => {
     string[]
   >([]);
 
-  console.log(favoritedListings);
   useEffect(() => {
     const getlistings = async () => {
       try {
