@@ -10,6 +10,8 @@ interface Props {
 const FavoritesCards = ({ category }: Props) => {
   const { currentUser } = useSelector((state: any) => state.user);
   const [listings, setListings] = useState([]);
+
+  // this state stores the id of the favorite listing
   const [favoritedListings, setFavoritedListings] = useState<
     string[]
   >([]);
@@ -59,9 +61,16 @@ const FavoritesCards = ({ category }: Props) => {
     }
   };
 
+  const filteredListings = listings.filter((listing) =>
+    favoritedListings.includes(listing._id)
+  );
+
+  if (filteredListings.length === 0) {
+    return <div className=" text-center">Wow ! such an empty</div>;
+  }
   return (
     <div className="grid grid-cols-5 gap-3">
-      {listings.map((listing) => (
+      {filteredListings.map((listing) => (
         <div key={listing._id} className="flex flex-col relative">
           <Link
             to={`/listing/${listing._id}`}

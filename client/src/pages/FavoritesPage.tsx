@@ -1,5 +1,4 @@
 import FavoritesCards from "@/components/FavoritesCards";
-import ListingsCards from "@/components/ListingsCards";
 import { useState } from "react";
 import { FaSkiing, FaWater } from "react-icons/fa";
 import {
