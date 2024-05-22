@@ -1,6 +1,5 @@
 import { X } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
-import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 interface SignupModalProps {

@@ -111,7 +111,9 @@ const Header = () => {
             </DropdownMenuItem>
             <DropdownMenuItem>
               {currentUser ? (
-                <button>My favourites</button>
+                <Link to={`/favorites/${currentUser._id}`}>
+                  My favourites
+                </Link>
               ) : (
                 <button onClick={openLoginModal}>Log in</button>
               )}
