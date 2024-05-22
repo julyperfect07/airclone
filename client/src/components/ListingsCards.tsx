@@ -40,7 +40,7 @@ const ListingsCards = ({ category }: Props) => {
     };
 
     getlistings();
-  }, [currentUser]);
+  }, [category, currentUser]);
 
   const toggleFavorite = async (listingId: string) => {
     try {

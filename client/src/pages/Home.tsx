@@ -219,6 +219,7 @@ const Home = () => {
       <div className=" flex gap-5 justify-between">
         {categories.map((category) => (
           <div
+            key={category.name}
             onClick={() => handleClick(category.name)}
             className={` flex flex-col items-center gap-2 cursor-pointer ${
               activeCategory === category.name
