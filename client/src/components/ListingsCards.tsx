@@ -40,7 +40,7 @@ const ListingsCards = ({ category }: Props) => {
     };
 
     getlistings();
-  }, [category]);
+  }, [currentUser]);
 
   const toggleFavorite = async (listingId: string) => {
     try {
@@ -79,16 +79,18 @@ const ListingsCards = ({ category }: Props) => {
             </h1>
             <h1>$ {listing.price} night</h1>
           </Link>
-          <div
-            className="absolute top-2 right-2 cursor-pointer"
-            onClick={() => toggleFavorite(listing._id)}
-          >
-            {favoritedListings.includes(listing._id) ? (
-              <FaHeart className="text-red-500 text-2xl" />
-            ) : (
-              <FaRegHeart className="text-gray-500 text-2xl" />
-            )}
-          </div>
+          {currentUser && (
+            <div
+              className="absolute top-2 right-2 cursor-pointer"
+              onClick={() => toggleFavorite(listing._id)}
+            >
+              {favoritedListings.includes(listing._id) ? (
+                <FaHeart className="text-red-500 text-2xl" />
+              ) : (
+                <FaRegHeart className="text-gray-500 text-2xl" />
+              )}
+            </div>
+          )}
         </div>
       ))}
     </div>
