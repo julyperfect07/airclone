@@ -54,3 +54,20 @@ export const reserve = async (
     next(error);
   }
 };
+
+export const getReservations = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId } = req.params;
+  try {
+    if (req.user._id !== userId) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    const reservations = await Reservation.find({ user: userId });
+    res.status(200).json(reservations);
+  } catch (error) {
+    next(error);
+  }
+};

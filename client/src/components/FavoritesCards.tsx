@@ -11,7 +11,6 @@ const FavoritesCards = ({ category }: Props) => {
   const { currentUser } = useSelector((state: any) => state.user);
   const [listings, setListings] = useState([]);
 
-  // this state stores the id of the favorite listing
   const [favoritedListings, setFavoritedListings] = useState<
     string[]
   >([]);

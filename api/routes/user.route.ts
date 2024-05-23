@@ -5,7 +5,6 @@ import {
   logout,
 } from "../controllers/user.controller";
 import { verifyToken } from "../utils/verifyUser";
-import User from "../models/user.model";
 
 const router = express.Router();
 
