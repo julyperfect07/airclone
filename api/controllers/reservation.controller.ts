@@ -65,7 +65,9 @@ export const getReservations = async (
     if (req.user._id !== userId) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    const reservations = await Reservation.find({ user: userId });
+    const reservations = await Reservation.find({ user: userId })
+      .populate("listingId")
+      .exec();
     res.status(200).json(reservations);
   } catch (error) {
     next(error);

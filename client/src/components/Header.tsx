@@ -125,7 +125,9 @@ const Header = () => {
                 </button>
               )}
             </DropdownMenuItem>
-            <DropdownMenuItem>My reservations</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link to={"/reservations"}>My reservations</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>
               {currentUser ? "My Account" : "Team"}
             </DropdownMenuItem>

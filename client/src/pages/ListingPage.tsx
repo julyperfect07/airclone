@@ -39,8 +39,10 @@ const ListingPage = () => {
           `/api/listing/onelisting/${params.id}`
         );
         const data = await res.json();
+
         if (res.ok) {
           setListing(data);
+        } else {
         }
       } catch (error) {
         console.log(error);
@@ -103,7 +105,7 @@ const ListingPage = () => {
     }
   };
 
-  if (!listing) return <div>Loading...</div>;
+  if (!listing) return <div>Listing not found</div>;
   return (
     <div className=" max-w-6xl m-auto mt-7">
       <h1 className=" font-bold text-lg">{listing.title}</h1>

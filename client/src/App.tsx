@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import { Toaster } from "./components/ui/toaster";
 import ListingPage from "./pages/ListingPage";
 import FavoritesPage from "./pages/FavoritesPage";
+import ReservationsPage from "./pages/ReservationsPage";
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
         <Route
           path="/favorites/:userId"
           element={<FavoritesPage />}
+        ></Route>
+        <Route
+          path="/reservations"
+          element={<ReservationsPage />}
         ></Route>
       </Routes>
     </BrowserRouter>
