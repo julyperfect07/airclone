@@ -73,3 +73,31 @@ export const getReservations = async (
     next(error);
   }
 };
+
+export const deleteReservation = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.user._id !== req.params.userId) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    const reservation = await Reservation.findOneAndDelete({
+      _id: req.params.reservationId,
+      user: req.user._id,
+    });
+
+    console.log(reservation);
+    if (!reservation) {
+      return res
+        .status(404)
+        .json({ message: "Reservation not found" });
+    }
+
+    res.status(200).json("Reservation deleted successfully");
+  } catch (error) {
+    next(error);
+  }
+};

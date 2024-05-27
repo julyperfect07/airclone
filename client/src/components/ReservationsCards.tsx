@@ -57,7 +57,6 @@ const ReservationsCards = ({ category }: Props) => {
     getListings();
   }, [category, currentUser]);
 
-  console.log(reservations);
   return (
     <div className="grid grid-cols-5 gap-3">
       {reservations.map((listing) => (
