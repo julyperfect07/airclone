@@ -18,7 +18,7 @@ interface CreateListingProps {
 }
 
 const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state: any) => state.user);
   const modalRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const [index, setIndex] = useState(1);
@@ -110,7 +110,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
     }
   };
 
-  const storeImage = async (file) => {
+  const storeImage = async (file: any) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
       const fileName = new Date().getTime() + file.name;

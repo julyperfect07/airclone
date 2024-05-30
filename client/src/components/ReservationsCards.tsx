@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { format, parse } from "date-fns";
+import { Button } from "./ui/button";
+import { useToast } from "./ui/use-toast";
+import { Check } from "lucide-react";
 
 interface Props {
   category: string;
@@ -28,6 +31,7 @@ interface Reservation {
 
 const ReservationsCards = ({ category }: Props) => {
   const { currentUser } = useSelector((state: any) => state.user);
+  const { toast } = useToast();
   const [, setListings] = useState([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
@@ -56,6 +60,36 @@ const ReservationsCards = ({ category }: Props) => {
     };
     getListings();
   }, [category, currentUser]);
+
+  const handleDelete = async (reservationId: string) => {
+    try {
+      const res = await fetch(
+        `/api/reservation/deleteReservation/${currentUser._id}/${reservationId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (res.ok) {
+        // Update the front-end state
+        setReservations((prevReservations) =>
+          prevReservations.filter(
+            (reservation) => reservation._id !== reservationId
+          )
+        );
+      }
+      const data = await res.json();
+      toast({
+        description: (
+          <div className=" flex gap-2 items-center ">
+            <Check className=" text-green-700" />
+            <p>{data}</p>
+          </div>
+        ),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="grid grid-cols-5 gap-3">
@@ -99,6 +133,12 @@ const ReservationsCards = ({ category }: Props) => {
               $ {listing.listingId.price} night
             </h1>
           </Link>
+          <Button
+            onClick={() => handleDelete(listing._id)}
+            className=" mt-2 bg-red-500 text-white hover:bg-white hover:text-red-500 border border-red-500 text-base"
+          >
+            Cancel Reservation
+          </Button>
         </div>
       ))}
     </div>
