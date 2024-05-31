@@ -95,20 +95,20 @@ const ReservationsCards = ({ category }: Props) => {
     <div className="grid grid-cols-5 gap-3">
       {reservations.map((listing) => (
         <div
-          key={listing.listingId._id}
+          key={listing.listingId?._id}
           className="flex flex-col relative"
         >
           <Link
-            to={`/listing/${listing.listingId._id}`}
+            to={`/listing/${listing.listingId?._id}`}
             className="flex flex-col"
           >
             <img
-              src={listing.listingId.images[0]}
+              src={listing.listingId?.images[0]}
               className="w-full h-60 object-cover rounded-md"
-              alt={listing.listingId.location}
+              alt={listing.listingId?.location}
             />
             <h1 className="font-bold mt-2">
-              {listing.listingId.location}
+              {listing.listingId?.location}
             </h1>
             <h1 className=" text-[#767676] ">
               {format(
@@ -130,7 +130,7 @@ const ReservationsCards = ({ category }: Props) => {
               )}
             </h1>
             <h1 className=" font-semibold">
-              $ {listing.listingId.price} night
+              $ {listing.listingId?.price} night
             </h1>
           </Link>
           <Button

@@ -17,7 +17,7 @@ const MyListingsCards = ({ category }: Props) => {
     const getlistings = async () => {
       try {
         const res = await fetch(
-          `/api/listing/getuserlistings/${currentUser._id}`
+          `/api/listing/getuserlistings/${currentUser._id}?category=${category}`
         );
 
         const data = await res.json();
