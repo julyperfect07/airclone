@@ -79,4 +79,17 @@ export const deleteUserListing = async (
   req: RequestWithUser,
   res: Response,
   next: NextFunction
-) => {};
+) => {
+  try {
+    const { userId, listingId } = req.params;
+
+    if (req.user._id !== userId) {
+      return errorHandler(404, "You can't perform this action");
+    }
+
+    await Listing.findByIdAndDelete(listingId);
+    res.status(201).json("Listing deleted successfully");
+  } catch (error) {
+    next(error);
+  }
+};
