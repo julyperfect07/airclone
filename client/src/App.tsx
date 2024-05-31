@@ -6,6 +6,7 @@ import { Toaster } from "./components/ui/toaster";
 import ListingPage from "./pages/ListingPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import ReservationsPage from "./pages/ReservationsPage";
+import MylistingsPage from "./pages/MylistingsPage";
 
 function App() {
   return (
@@ -22,6 +23,10 @@ function App() {
         <Route
           path="/reservations"
           element={<ReservationsPage />}
+        ></Route>
+        <Route
+          path="/mylistings"
+          element={<MylistingsPage />}
         ></Route>
       </Routes>
     </BrowserRouter>

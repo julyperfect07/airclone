@@ -104,7 +104,7 @@ const Header = () => {
           <DropdownMenuContent>
             <DropdownMenuItem>
               {currentUser ? (
-                <button>My trips</button>
+                <Link to="/mylistings">My Listings</Link>
               ) : (
                 <button onClick={openSignupModal}>Sign up</button>
               )}

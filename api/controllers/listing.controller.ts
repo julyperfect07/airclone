@@ -1,5 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import Listing from "../models/listing.model";
+import { errorHandler } from "../utils/error";
+
+interface RequestWithUser extends Request {
+  user: {
+    _id: string;
+  };
+}
 
 export const createListing = async (
   req: Request,
@@ -49,3 +56,27 @@ export const getOneListing = async (
     next(error);
   }
 };
+
+export const getUserListings = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { userId } = req.params;
+    if (req.user._id !== userId) {
+      return errorHandler(404, "You can't perform this action");
+    }
+    const listings = await Listing.find({ userRef: userId });
+
+    res.status(200).json(listings);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUserListing = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {};
