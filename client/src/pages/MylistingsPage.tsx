@@ -1,4 +1,3 @@
-import ReservationsCards from "@/components/ReservationsCards";
 import MyListingsCards from "@/components/ui/MylistingsCard";
 import { useState } from "react";
 import { FaSkiing, FaWater } from "react-icons/fa";
