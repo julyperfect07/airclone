@@ -95,24 +95,21 @@ const ReservationsCards = ({ category }: Props) => {
             className="flex flex-col relative"
           >
             {" "}
-            {/* Added null check for listingId._id */}
             <Link
               to={`/listing/${listingId?._id}`}
               className="flex flex-col"
             >
               {" "}
-              {/* Added null check for listingId._id */}
-              {firstImage /* Check if firstImage exists before rendering the img tag */ && (
+              {firstImage && (
                 <img
                   src={firstImage}
                   className="w-full h-60 object-cover rounded-md"
-                  alt={listingId?.location} // Added null check for listingId.location
+                  alt={listingId?.location}
                 />
               )}
               <h1 className="font-bold mt-2">
                 {listingId?.location}
               </h1>{" "}
-              {/* Added null check for listingId.location */}
               <h1 className="text-[#767676]">
                 {format(
                   parse(
@@ -134,7 +131,6 @@ const ReservationsCards = ({ category }: Props) => {
               </h1>
               <h1 className="font-semibold">
                 $ {listingId?.price} night{" "}
-                {/* Added null check for listingId.price */}
               </h1>
             </Link>
             <Button
