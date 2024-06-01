@@ -78,6 +78,7 @@ const ListingPage = () => {
           endDate: selectedRange.endDate,
           guests: listing.guests,
           user: currentUser._id,
+          category: listing.category,
         }),
       });
       const data = await res.json();
@@ -86,7 +87,7 @@ const ListingPage = () => {
           description: (
             <div className=" flex gap-2 items-center ">
               <Check className=" text-green-700" />
-              <p>The lisiting has been preserved successfully</p>
+              <p>The lisiting has been reserved successfully</p>
             </div>
           ),
         });

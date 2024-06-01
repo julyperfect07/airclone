@@ -32,22 +32,14 @@ interface Reservation {
 const ReservationsCards = ({ category }: Props) => {
   const { currentUser } = useSelector((state: any) => state.user);
   const { toast } = useToast();
-  const [, setListings] = useState([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
   useEffect(() => {
     const getListings = async () => {
       try {
-        const res = await fetch(
-          `/api/listing/getlistings?category=${category}`
-        );
-        const data = await res.json();
-        if (res.ok) {
-          setListings(data);
-        }
         if (currentUser) {
           const reservationRes = await fetch(
-            `/api/reservation/getReservations/${currentUser._id}`
+            `/api/reservation/getReservations/${currentUser._id}?category=${category}`
           );
           const data = await reservationRes.json();
           if (reservationRes.ok) {
@@ -93,54 +85,67 @@ const ReservationsCards = ({ category }: Props) => {
 
   return (
     <div className="grid grid-cols-5 gap-3">
-      {reservations.map((listing) => (
-        <div
-          key={listing.listingId?._id}
-          className="flex flex-col relative"
-        >
-          <Link
-            to={`/listing/${listing.listingId?._id}`}
-            className="flex flex-col"
+      {reservations.map((listing) => {
+        const listingId = listing?.listingId;
+        const images = listingId?.images || [];
+        const firstImage = images[0];
+        return (
+          <div
+            key={listingId?._id}
+            className="flex flex-col relative"
           >
-            <img
-              src={listing.listingId?.images[0]}
-              className="w-full h-60 object-cover rounded-md"
-              alt={listing.listingId?.location}
-            />
-            <h1 className="font-bold mt-2">
-              {listing.listingId?.location}
-            </h1>
-            <h1 className=" text-[#767676] ">
-              {format(
-                parse(
-                  listing.startDate,
-                  "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
-                  new Date()
-                ),
-                "MMM dd, yyyy"
-              )}{" "}
-              -{" "}
-              {format(
-                parse(
-                  listing.endDate,
-                  "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
-                  new Date()
-                ),
-                "MMM dd, yyyy"
+            {" "}
+            {/* Added null check for listingId._id */}
+            <Link
+              to={`/listing/${listingId?._id}`}
+              className="flex flex-col"
+            >
+              {" "}
+              {/* Added null check for listingId._id */}
+              {firstImage /* Check if firstImage exists before rendering the img tag */ && (
+                <img
+                  src={firstImage}
+                  className="w-full h-60 object-cover rounded-md"
+                  alt={listingId?.location} // Added null check for listingId.location
+                />
               )}
-            </h1>
-            <h1 className=" font-semibold">
-              $ {listing.listingId?.price} night
-            </h1>
-          </Link>
-          <Button
-            onClick={() => handleDelete(listing._id)}
-            className=" mt-2 bg-red-500 text-white hover:bg-white hover:text-red-500 border border-red-500 text-base"
-          >
-            Cancel Reservation
-          </Button>
-        </div>
-      ))}
+              <h1 className="font-bold mt-2">
+                {listingId?.location}
+              </h1>{" "}
+              {/* Added null check for listingId.location */}
+              <h1 className="text-[#767676]">
+                {format(
+                  parse(
+                    listing.startDate,
+                    "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
+                    new Date()
+                  ),
+                  "MMM dd, yyyy"
+                )}{" "}
+                -{" "}
+                {format(
+                  parse(
+                    listing.endDate,
+                    "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
+                    new Date()
+                  ),
+                  "MMM dd, yyyy"
+                )}
+              </h1>
+              <h1 className="font-semibold">
+                $ {listingId?.price} night{" "}
+                {/* Added null check for listingId.price */}
+              </h1>
+            </Link>
+            <Button
+              onClick={() => handleDelete(listing._id)}
+              className="mt-2 bg-red-500 text-white hover:bg-white hover:text-red-500 border border-red-500 text-base"
+            >
+              Cancel Reservation
+            </Button>
+          </div>
+        );
+      })}
     </div>
   );
 };

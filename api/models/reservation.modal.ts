@@ -6,6 +6,7 @@ const ReservationSchema = new mongoose.Schema({
     ref: "Listing",
     required: true,
   },
+  category: String,
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   guests: { type: Number, required: true },

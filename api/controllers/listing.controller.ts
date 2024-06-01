@@ -66,11 +66,6 @@ export const getUserListings = async (
     const { userId } = req.params;
     let category = String(req.query.category).toLowerCase();
 
-    console.log(
-      `userId: ${userId}, category: ${category}, req.user._id: ${req.user._id}`
-    );
-
-    // Ensure userId and req.user._id are of the same type
     if (req.user._id.toString() !== userId) {
       return res
         .status(403)
@@ -81,13 +76,11 @@ export const getUserListings = async (
     if (category === "all" || !category) {
       listings = await Listing.find({ userRef: userId });
     } else {
-      console.log(`Finding listings for category: ${category}`);
       listings = await Listing.find({
         userRef: userId,
         category: category as string,
       });
     }
-    console.log(listings);
     res.status(200).json(listings);
   } catch (error) {
     console.error(`Error fetching listings: ${error.message}`);

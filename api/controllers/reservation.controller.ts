@@ -15,7 +15,8 @@ export const reserve = async (
   next: NextFunction
 ) => {
   try {
-    const { listingId, startDate, endDate, guests, user } = req.body;
+    const { listingId, startDate, endDate, guests, user, category } =
+      req.body;
 
     const userId = req.user._id;
 
@@ -46,6 +47,7 @@ export const reserve = async (
       endDate,
       guests,
       user: userId,
+      category,
     });
 
     const savedReservation = await newReservation.save();
@@ -61,13 +63,25 @@ export const getReservations = async (
   next: NextFunction
 ) => {
   const { userId } = req.params;
+  let category = String(req.query.category).toLowerCase();
+
   try {
     if (req.user._id !== userId) {
       return res.status(403).json({ message: "Forbidden" });
     }
-    const reservations = await Reservation.find({ user: userId })
-      .populate("listingId")
-      .exec();
+    let reservations;
+    if (category == "all") {
+      reservations = await Reservation.find({ user: userId })
+        .populate("listingId")
+        .exec();
+    } else {
+      reservations = await Reservation.find({
+        user: userId,
+        category: category,
+      })
+        .populate("listingId")
+        .exec();
+    }
     res.status(200).json(reservations);
   } catch (error) {
     next(error);
