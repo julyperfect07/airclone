@@ -129,7 +129,11 @@ const Header = () => {
               <Link to={"/reservations"}>My reservations</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              {currentUser ? "My Account" : "Team"}
+              {currentUser ? (
+                <Link to="/myaccount">My Account</Link>
+              ) : (
+                "Team"
+              )}
             </DropdownMenuItem>
             <DropdownMenuItem>Airbnb your home</DropdownMenuItem>
             {currentUser && (

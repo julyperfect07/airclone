@@ -7,6 +7,7 @@ import ListingPage from "./pages/ListingPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import ReservationsPage from "./pages/ReservationsPage";
 import MylistingsPage from "./pages/MylistingsPage";
+import Myaccount from "./pages/Myaccount";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           path="/mylistings"
           element={<MylistingsPage />}
         ></Route>
+        <Route path="/myaccount" element={<Myaccount />}></Route>
       </Routes>
     </BrowserRouter>
   );
