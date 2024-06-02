@@ -37,8 +37,6 @@ const MyAccount: React.FC = () => {
     });
   };
 
-  console.log(formData);
-
   const handleSaveChanges = async () => {
     try {
       const response = await fetch("/api/updateProfile", {
