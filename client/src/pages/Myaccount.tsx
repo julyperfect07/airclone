@@ -52,7 +52,7 @@ const Myaccount = () => {
         </form>
       </CardContent>
       <CardFooter>
-        <Button className=" w-full bg-red-500 hover:bg-white hover:text-red-500">
+        <Button className=" w-full bg-red-500 hover:bg-white hover:text-red-500 border border-red-500">
           Save changes
         </Button>
       </CardFooter>
