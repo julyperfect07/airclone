@@ -8,9 +8,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { app } from "@/firebase";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "@firebase/storage";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 interface FormData {
@@ -22,12 +29,17 @@ interface FormData {
 
 const MyAccount: React.FC = () => {
   const { currentUser } = useSelector((state: any) => state.user);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>({
     profilePicture: currentUser.profilePicture,
     email: currentUser.email,
     username: currentUser.username,
     password: "",
   });
+  const [uploadProgress, setUploadProgress] = useState<number | null>(
+    null
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,7 +49,8 @@ const MyAccount: React.FC = () => {
     });
   };
 
-  const handleSaveChanges = async () => {
+  const handleSaveChanges = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const response = await fetch("/api/updateProfile", {
         method: "PATCH",
@@ -61,6 +74,41 @@ const MyAccount: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (file) {
+      handleFileUpload(file);
+    }
+  }, [file]);
+
+  const handleFileUpload = (file: File) => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + "_" + file.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
+        console.log(`Upload is ${progress}% done`);
+      },
+      (error) => {
+        console.error("Upload failed:", error);
+        setUploadProgress(null);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(
+          (downloadURL) => {
+            setFormData({ ...formData, profilePicture: downloadURL });
+            setUploadProgress(null);
+          }
+        );
+      }
+    );
+  };
+
   return (
     <Card className="w-[450px] mx-auto my-32">
       <CardHeader>
@@ -72,12 +120,32 @@ const MyAccount: React.FC = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSaveChanges}>
-          <Avatar>
-            <AvatarImage
-              className="rounded-full m-auto hover:cursor-pointer mb-2"
-              src={formData.profilePicture}
-            />
-          </Avatar>
+          <div className="relative h-24 w-24 mx-auto">
+            <Avatar className="h-full w-full">
+              <Input
+                type="file"
+                className="hidden"
+                ref={fileRef}
+                accept="image/*"
+                onChange={(e) => setFile(e.target.files?.[0] || null)}
+              />
+              <AvatarImage
+                className="rounded-full h-full w-full object-cover cursor-pointer"
+                src={
+                  formData.profilePicture ||
+                  currentUser.profilePicture
+                }
+                onClick={() => fileRef.current?.click()}
+              />
+            </Avatar>
+            {uploadProgress !== null && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+                <span className="text-white">
+                  {Math.round(uploadProgress)}%
+                </span>
+              </div>
+            )}
+          </div>
           <Label className="font-semibold">Username</Label>
           <Input
             type="text"
@@ -103,16 +171,14 @@ const MyAccount: React.FC = () => {
             value={formData.password}
             onChange={handleChange}
           />
+          <Button
+            type="submit"
+            className="w-full bg-red-500 hover:bg-white hover:text-red-500 border border-red-500"
+          >
+            Save changes
+          </Button>
         </form>
       </CardContent>
-      <CardFooter>
-        <Button
-          className="w-full bg-red-500 hover:bg-white hover:text-red-500 border border-red-500"
-          onClick={handleSaveChanges}
-        >
-          Save changes
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
