@@ -17,7 +17,9 @@ import {
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
 import { useState, ChangeEvent, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfileSuccess } from "../../redux/user/userSlice"; // Ensure correct path
+import type { RootState } from "../../redux/store"; // Ensure correct path
 
 interface FormData {
   profilePicture: string;
@@ -27,18 +29,23 @@ interface FormData {
 }
 
 const MyAccount: React.FC = () => {
-  const { currentUser } = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(
+    (state: RootState) => state.user
+  );
   const fileRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormData>({
-    profilePicture: currentUser.profilePicture,
-    email: currentUser.email,
-    username: currentUser.username,
+    profilePicture: currentUser?.profilePicture || "",
+    email: currentUser?.email || "",
+    username: currentUser?.username || "",
     password: "",
   });
   const [uploadProgress, setUploadProgress] = useState<number | null>(
     null
   );
+
+  const [renderKey, setRenderKey] = useState(0);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,8 +70,17 @@ const MyAccount: React.FC = () => {
         throw new Error("Network response was not ok");
       }
 
-      const data = await response.json();
-      console.log(data);
+      const updatedData = await response.json();
+      console.log(updatedData);
+
+      dispatch(
+        updateProfileSuccess({
+          profilePicture: updatedData.user.profilePicture,
+          email: updatedData.user.email,
+          username: updatedData.user.username,
+          password: updatedData.user.password,
+        })
+      );
     } catch (error) {
       console.error(
         "There was an error updating the profile!",
@@ -78,6 +94,11 @@ const MyAccount: React.FC = () => {
       handleFileUpload(file);
     }
   }, [file]);
+
+  useEffect(() => {
+    // Force re-render when currentUser changes
+    setRenderKey((prevKey) => prevKey + 1);
+  }, [currentUser]);
 
   const handleFileUpload = (file: File) => {
     const storage = getStorage(app);
@@ -132,7 +153,8 @@ const MyAccount: React.FC = () => {
                 className="rounded-full h-full w-full object-cover cursor-pointer"
                 src={
                   formData.profilePicture ||
-                  currentUser.profilePicture
+                  currentUser?.profilePicture ||
+                  ""
                 }
                 onClick={() => fileRef.current?.click()}
               />

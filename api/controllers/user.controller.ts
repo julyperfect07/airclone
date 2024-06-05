@@ -78,7 +78,11 @@ export const getFavorites = async (
   }
 };
 
-export const updateProfile = async (req, res, next) => {
+export const updateProfile = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { profilePicture, email, username, password } = req.body;
 
