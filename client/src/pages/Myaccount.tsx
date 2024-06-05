@@ -51,7 +51,7 @@ const MyAccount: React.FC = () => {
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/updateProfile", {
+      const response = await fetch("/api/user/updateProfile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

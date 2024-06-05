@@ -1,11 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
 import Listing from "../models/listing.model";
+import bcryptjs from "bcryptjs";
+
 interface RequestWithUser extends Request {
   user: {
     _id: string;
   };
 }
+
+interface UpdateData {
+  profilePicture?: string;
+  email: string;
+  username: string;
+  password?: string;
+}
+
 export const logout = (
   req: Request,
   res: Response,
@@ -65,5 +75,50 @@ export const getFavorites = async (
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const updateProfile = async (req, res, next) => {
+  try {
+    const { profilePicture, email, username, password } = req.body;
+
+    if (!email || !username) {
+      return res
+        .status(400)
+        .json({ message: "Email and username are required" });
+    }
+
+    const updateData: UpdateData = {
+      profilePicture,
+      email,
+      username,
+    };
+
+    if (password) {
+      updateData.password = await bcryptjs.hash(password, 10);
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { email },
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Your profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      // Handle unique constraint error for email
+      return res
+        .status(409)
+        .json({ message: "Email already in use" });
+    }
+    next(error);
   }
 };
