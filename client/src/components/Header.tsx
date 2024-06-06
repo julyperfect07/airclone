@@ -58,15 +58,15 @@ const Header = () => {
     }
   };
   return (
-    <header className=" max-w-[1500px] mx-auto p-5 flex justify-between border-b items-center">
+    <header className=" w-full sm:max-w-[1500px] mx-auto p-5 flex justify-between border-b items-center">
       <Link
         to={"/"}
-        className=" text-lg flex gap-2 items-center hover:cursor-pointer"
+        className=" flex text-lg gap-2 items-center hover:cursor-pointer"
       >
         <Navigation2 size={40} className=" text-red-500" />
         <h1 className=" text-red-500 font-bold text-xl">airbnb</h1>
       </Link>
-      <div className=" flex items-center gap-5 border shadow-sm hover:shadow-md duration-75 rounded-3xl py-1 px-3">
+      <div className=" hidden md:flex items-center gap-5 border shadow-sm hover:shadow-md duration-75 rounded-3xl py-1 px-3">
         <span className=" font-semibold border-r border-gray-200 pr-6">
           Anywhere
         </span>
@@ -79,9 +79,6 @@ const Header = () => {
         </div>
       </div>
       <div className=" flex items-center gap-4">
-        <h1 className=" text-base font-semibold hover:bg-gray-100 p-2 rounded-3xl">
-          Airbnb your home
-        </h1>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className=" flex items-center border p-2 gap-2 rounded-3xl hover:cursor-pointer">

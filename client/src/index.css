@@ -75,6 +75,10 @@
   }
 }
 
+body {
+  padding: 3px;
+}
+
 .rdrMonth {
   width: 100% !important;
 }

@@ -210,35 +210,37 @@ const Home = () => {
     },
   ];
 
-  const handleClick = (name: string) => {
+  const handleClick = (name) => {
     setActiveCategory(name);
   };
 
   return (
-    <div className=" flex flex-col gap-5 max-w-7xl mx-auto mt-5">
-      <div className=" flex gap-5 justify-between">
-        {categories.map((category) => (
-          <div
-            key={category.name}
-            onClick={() => handleClick(category.name)}
-            className={` flex flex-col items-center gap-2 cursor-pointer ${
-              activeCategory === category.name
-                ? " font-semibold text-black underline"
-                : ""
-            }`}
-          >
-            {category.icon}
-            <h1
-              className={`${
+    <div className="flex flex-col gap-5 max-w-7xl mx-auto mt-5">
+      <div className="overflow-x-auto">
+        <div className="flex gap-5 justify-between">
+          {categories.map((category) => (
+            <div
+              key={category.name}
+              onClick={() => handleClick(category.name)}
+              className={`flex flex-col items-center gap-2 cursor-pointer ${
                 activeCategory === category.name
-                  ? " text-black"
-                  : "text-[#767676]"
-              } `}
+                  ? "font-semibold text-black underline"
+                  : ""
+              }`}
             >
-              {category.name}
-            </h1>
-          </div>
-        ))}
+              {category.icon}
+              <h1
+                className={`${
+                  activeCategory === category.name
+                    ? "text-black"
+                    : "text-[#767676]"
+                }`}
+              >
+                {category.name}
+              </h1>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="w-full">
         <ListingsCards category={activeCategory} />
