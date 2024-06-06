@@ -45,8 +45,6 @@ const MyAccount: React.FC = () => {
     null
   );
 
-  const [renderKey, setRenderKey] = useState(0);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -94,11 +92,6 @@ const MyAccount: React.FC = () => {
       handleFileUpload(file);
     }
   }, [file]);
-
-  useEffect(() => {
-    // Force re-render when currentUser changes
-    setRenderKey((prevKey) => prevKey + 1);
-  }, [currentUser]);
 
   const handleFileUpload = (file: File) => {
     const storage = getStorage(app);
