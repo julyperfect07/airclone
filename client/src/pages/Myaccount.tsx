@@ -123,7 +123,7 @@ const MyAccount: React.FC = () => {
   };
 
   return (
-    <Card className="w-[450px] mx-auto my-32">
+    <Card className=" w-full sm:w-[450px] mx-auto my-5 sm:my-32">
       <CardHeader>
         <CardTitle>Your account</CardTitle>
         <CardDescription>
