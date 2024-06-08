@@ -18,8 +18,8 @@ import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Label } from "@radix-ui/react-label";
 import { useState, ChangeEvent, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfileSuccess } from "../../redux/user/userSlice"; // Ensure correct path
-import type { RootState } from "../../redux/store"; // Ensure correct path
+import { updateProfileSuccess } from "../../redux/user/userSlice";
+import type { RootState } from "../../redux/store";
 
 interface FormData {
   profilePicture: string;
