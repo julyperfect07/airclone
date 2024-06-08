@@ -103,7 +103,7 @@ const ReservationsCards = ({ category }: Props) => {
               {firstImage && (
                 <img
                   src={firstImage}
-                  className="w-full h-60 object-cover rounded-md"
+                  className="w-full h-80 sm:h-60  object-cover rounded-md"
                   alt={listingId?.location}
                 />
               )}

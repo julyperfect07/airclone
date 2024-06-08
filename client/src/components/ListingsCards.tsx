@@ -69,7 +69,7 @@ const ListingsCards = ({ category }: Props) => {
           >
             <img
               src={listing.images[0]}
-              className="w-full h-60 object-cover rounded-md"
+              className="w-full h-80 sm:h-60 object-cover rounded-md"
               alt={listing.location}
             />
             <h1 className="font-bold mt-2">{listing.location}</h1>
