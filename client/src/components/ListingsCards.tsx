@@ -60,7 +60,7 @@ const ListingsCards = ({ category }: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
       {listings.map((listing) => (
         <div key={listing._id} className="flex flex-col relative">
           <Link
