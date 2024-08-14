@@ -23,7 +23,7 @@ mongoose
   .then(() => console.log("Mongodb is connected"))
   .catch((err) => console.log(err));
 
-const __dirname = path.resolve();
+const currentWorkingDirectory = process.cwd();
 
 const app = express();
 
@@ -40,10 +40,14 @@ app.use("/api/auth", authRoutes);
 app.use("/api/listing", listingRoutes);
 app.use("/api/reservation", reservationRoutes);
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(
+  express.static(path.join(currentWorkingDirectory, "/client/dist"))
+);
 
 app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  res.sendFile(
+    path.join(currentWorkingDirectory, "client", "dist", "index.html")
+  );
 });
 
 app.use(
