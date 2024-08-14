@@ -281,7 +281,7 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    price: parseFloat(e.target.value),
+                    price: parseFloat(e.target.value).toString(),
                   })
                 }
                 placeholder="Location"
@@ -402,7 +402,9 @@ const CreateListing: React.FC<CreateListingProps> = ({ onClose }) => {
                 <input
                   type="file"
                   multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) =>
+                    setFiles(Array.from(e.target.files))
+                  }
                 />
                 <Button
                   className=" bg-red-500"
