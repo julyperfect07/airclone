@@ -67,15 +67,7 @@ const Header = () => {
         <Navigation2 size={40} className=" text-red-500" />
         <h1 className=" text-red-500 font-bold text-xl">airbnb</h1>
       </Link>
-      <div className=" w-full sm:w-[450px] flex items-center shadow-sm hover:shadow-md duration-75 rounded-3xl py-1 px-0 sm:px-3 mr-3">
-        <Input
-          className=" w-full border-none focus-visible:ring-transparent"
-          placeholder="Search..."
-        />
-        <div className=" bg-red-500 rounded-full text-white p-2 cursor-pointer">
-          <Search className=" w-5 h-5" />
-        </div>
-      </div>
+
       <div className=" flex items-center gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
