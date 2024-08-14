@@ -120,7 +120,6 @@ const ListingPage = () => {
       )}
       <div className=" flex flex-col sm:flex-row gap-2 w-full mt-5 ">
         <div className=" flex-1">
-          <h1 className=" font-semibold text-lg">Hosted by </h1>
           <div className=" flex gap-3 mt-3 ">
             <span className=" text-[#767676] text-base">
               {listing.guests} guests
